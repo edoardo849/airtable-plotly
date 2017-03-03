@@ -22,30 +22,34 @@
                   zoomType: 'xy'
               },
               title: {
-                  text: 'Impact and Feasibility of ideas'
+                  text: 'Digital Strategy'
               },
 
               xAxis: {
                   title: {
                       enabled: true,
-                      text: 'Impact'
+                      text: 'Achievability'
                   },
+		  max:5,
+		  min:1,
                   startOnTick: true,
                   endOnTick: true,
                   showLastLabel: true
               },
               yAxis: {
+		  max:5,
+			min:1,
                   title: {
-                      text: 'Feasibility'
+                      text: 'Impact'
                   }
               },
               legend: {
                   layout: 'vertical',
                   align: 'left',
                   verticalAlign: 'top',
-                  x: 100,
-                  y: 70,
-                  floating: true,
+                  
+                  
+                  floating: false,
                   backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
                   borderWidth: 1
               },
@@ -75,7 +79,7 @@
               series: [{}]
           };
           function refreshData(){
-            $.getJSON('http://localhost:8080/ideas/?key=abc123', function(data) {
+            $.getJSON('http://34.248.210.200:8080/ideas/?key=abc123', function(data) {
                 console.log(data);
                 var groups = Object.create(null);
                 for (var i = 0; i < data.length; i++) {
@@ -90,7 +94,7 @@
                     var impact,achievability;
                     impact = parseFloat(Math.round(item.impact * 100) / 100).toFixed(2);
                     achievability = parseFloat(Math.round(item.achievability * 100) / 100).toFixed(2);
-                    groups[item.category]["data"].push({"x" : parseFloat(impact), "y": parseFloat(achievability), "tag":item.name});
+                    groups[item.category]["data"].push({"y" : parseFloat(impact), "x": parseFloat(achievability), "tag":item.name});
                 }
 
                 var result = [];
