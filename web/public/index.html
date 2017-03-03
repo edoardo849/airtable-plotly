@@ -1,21 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 
 <html>
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
 
     <title>Digital Strategy - Hackathon</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" type="text/css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
-    </script>
+</script>
     <style type="text/css">
-        $ {
+    $ {
             demo.css
         }
     </style>
     <script type="text/javascript">
-        $(function() {
+    $(function() {
           var options = {
               chart: {
                   type: 'scatter',
@@ -30,15 +29,15 @@
                       enabled: true,
                       text: 'Achievability'
                   },
-		  max:5,
-		  min:1,
+                  max:5,
+                  min:1,
                   startOnTick: true,
                   endOnTick: true,
                   showLastLabel: true
               },
               yAxis: {
-		  max:5,
-			min:1,
+                  max:5,
+                        min:1,
                   title: {
                       text: 'Impact'
                   }
@@ -72,14 +71,14 @@
                           }
                       },
                       tooltip: {
-                          pointFormat: '<b>{point.tag}</b> ({point.x}, {point.y}) '
+                          pointFormat: '<b>{point.tag}<\/b> ({point.x}, {point.y}) '
                       }
                   }
               },
               series: [{}]
           };
           function refreshData(){
-            $.getJSON('http://34.248.210.200:8080/ideas/?key=abc123', function(data) {
+            $.getJSON('http://34.248.210.200:8084/ideas/?key=abc123', function(data) {
                 console.log(data);
                 var groups = Object.create(null);
                 for (var i = 0; i < data.length; i++) {
@@ -120,17 +119,17 @@
 
 <body>
     <script src="https://code.highcharts.com/highcharts.js" type="text/javascript">
-    </script>
-    <script src="https://code.highcharts.com/modules/exporting.js" type="text/javascript">
-    </script>
+</script><script src="https://code.highcharts.com/modules/exporting.js" type="text/javascript">
+</script>
 
     <div id="container" style="min-width: 310px; height: 400px; max-width: 800px; margin: 0 auto">
     </div>
+
     <hr>
+
+
     <div class="well center-block" style="max-width:400px">
-      <button id="change" type="button" class="btn btn-primary btn-lg btn-block">Refresh</button>
+        <button id="change" type="button" class="btn btn-primary btn-lg btn-block">Refresh</button>
     </div>
-
 </body>
-
 </html>

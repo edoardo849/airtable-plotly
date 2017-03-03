@@ -14,8 +14,7 @@ var (
 
 func init() {
 	// Tie the command-line flag to the intervalFlag variable and
-
-	flag.StringVar(&addr, "addr", ":8080", "address port")
+	flag.StringVar(&addr, "addr", ":8084", "address port")
 	flag.StringVar(&apiKey, "apiKey", "", "Airtable's api key")
 	flag.Parse()
 }
@@ -28,7 +27,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ideas/", withCORS(withAPIKey(s.handlePolls)))
 	log.Println("Starting web server on", addr)
-	http.ListenAndServe(":8080", mux)
+	http.ListenAndServe(addr, mux)
 	log.Println("Stopping...")
 }
 
