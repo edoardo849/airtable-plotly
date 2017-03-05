@@ -1,135 +1,207 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 
 <html>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
 
     <title>Digital Strategy - Hackathon</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" type="text/css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
-</script>
+    </script>
     <style type="text/css">
-    $ {
+        $ {
             demo.css
         }
     </style>
     <script type="text/javascript">
-    $(function() {
-          var options = {
-              chart: {
-                  type: 'scatter',
-                  zoomType: 'xy'
-              },
-              title: {
-                  text: 'Digital Strategy'
-              },
+        $(function() {
 
-              xAxis: {
-                  title: {
-                      enabled: true,
-                      text: 'Achievability'
-                  },
-                  max:5,
-                  min:1,
-                  startOnTick: true,
-                  endOnTick: true,
-                  showLastLabel: true
-              },
-              yAxis: {
-                  max:5,
-                        min:1,
-                  title: {
-                      text: 'Impact'
-                  }
-              },
-              legend: {
-                  layout: 'vertical',
-                  align: 'left',
-                  verticalAlign: 'top',
-                  
-                  
-                  floating: false,
-                  backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
-                  borderWidth: 1
-              },
-              plotOptions: {
-                  scatter: {
-                      marker: {
-                          radius: 5,
-                          states: {
-                              hover: {
-                                  enabled: true,
-                                  lineColor: 'rgb(100,100,100)'
-                              }
-                          }
-                      },
-                      states: {
-                          hover: {
-                              marker: {
-                                  enabled: false
-                              }
-                          }
-                      },
-                      tooltip: {
-                          pointFormat: '<b>{point.tag}<\/b> ({point.x}, {point.y}) '
-                      }
-                  }
-              },
-              series: [{}]
-          };
-          function refreshData(){
-            $.getJSON('http://34.248.210.200:8084/ideas/?key=abc123', function(data) {
-                console.log(data);
-                var groups = Object.create(null);
-                for (var i = 0; i < data.length; i++) {
-                    var item = data[i];
+            var options = {
+                chart: {
+                    type: 'scatter',
+                    zoomType: 'xy'
+                },
+                title: {
+                    text: 'Digital Strategy'
+                },
 
-                    if (!groups[item.category]) {
-                        groups[item.category] = {
-                            name: item.category,
-                            data: []
-                        };
+                xAxis: {
+                    title: {
+                        enabled: true,
+                        text: 'Achievability'
+                    },
+                    max: 5,
+                    min: 1,
+                    startOnTick: true,
+                    endOnTick: true,
+                    showLastLabel: true,
+                    plotLines: [{
+                        value: 3,
+                        color: 'black',
+                        width: 2
+                    }],
+                },
+                yAxis: {
+                    max: 5,
+                    min: 1,
+                    title: {
+                        text: 'Impact'
+                    },
+                    plotLines: [{
+                        value: 3,
+                        color: 'black',
+                        width: 2
+                    }],
+                },
+                legend: {
+                    align: 'center',
+                    verticalAlign: 'bottom',
+                    layout: 'horizontal',
+
+
+                    floating: false,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+                    borderWidth: 1
+                },
+                plotOptions: {
+                    scatter: {
+                        marker: {
+                            radius: 5,
+                            states: {
+                                hover: {
+                                    enabled: true,
+                                    lineColor: 'rgb(100,100,100)'
+                                }
+                            }
+                        },
+                        states: {
+                            hover: {
+                                marker: {
+                                    enabled: false
+                                }
+                            }
+                        },
+                        tooltip: {
+                            pointFormat: '<b>{point.tag}<\/b> ({point.y}, {point.x}) '
+                        }
                     }
-                    var impact,achievability;
-                    impact = parseFloat(Math.round(item.impact * 100) / 100).toFixed(2);
-                    achievability = parseFloat(Math.round(item.achievability * 100) / 100).toFixed(2);
-                    groups[item.category]["data"].push({"y" : parseFloat(impact), "x": parseFloat(achievability), "tag":item.name});
-                }
+                },
+                series: [{}]
+            };
 
-                var result = [];
-                for (var x in groups) {
+            function refreshData() {
+                $.getJSON('http://34.248.210.200:8084/ideas/?key=abc123', function(data) {
+                    console.log(data);
+                    var groups = Object.create(null);
+                    var content = ""
+                    for (var i = 0; i < data.length; i++) {
+                        var item = data[i];
+                        var impact, achievability;
+                        impact = parseFloat(Math.round(item.impact * 100) / 100).toFixed(2);
+                        achievability = parseFloat(Math.round(item.achievability * 100) / 100).toFixed(2);
+                        content += '<tr>'+
+                            '<th scope="row">'+ (i+1) +'</th>'+
+                            '<td>'+ item.name +'</td>' +
+                            '<td>'+ item.category +'</td>' +
+                            '<td>'+impact+'</td>' +
+                            '<td>'+achievability+'</td>' +
+                        '</tr>';
 
-                    result.push(groups[x]);
+                        if (!groups[item.category]) {
+                            groups[item.category] = {
+                                name: item.category,
+                                data: []
+                            };
+                        }
+
+                        groups[item.category]["data"].push({
+                            "y": parseFloat(impact),
+                            "x": parseFloat(achievability),
+                            "tag": item.name
+                        });
+                    }
+                    $('#tablebody').html(content);
+
+                    var result = [];
+                    for (var x in groups) {
+
+                        result.push(groups[x]);
+                    }
+                    console.log(result);
+                    options.series = result;
+                    Highcharts.chart('container', options);
+                });
+            }
+
+            function search() {
+                // Declare variables
+                var input, filter, table, tr, td, i;
+                input = document.getElementById("search");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("searchtable");
+                tr = table.getElementsByTagName("tr");
+
+                // Loop through all table rows, and hide those who don't match the search query
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    if (td) {
+                        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
                 }
-                console.log(result);
-                options.series = result;
-                Highcharts.chart('container', options);
+            }
+
+            $("#change").click(function() {
+                refreshData();
             });
-          }
-
-          $("#change").click(function() {
-              refreshData();
-          });
-          refreshData();
+            $("#search").keyup(function() {
+                search();
+            });
+            refreshData();
         });
-
-
     </script>
 </head>
 
 <body>
     <script src="https://code.highcharts.com/highcharts.js" type="text/javascript">
-</script><script src="https://code.highcharts.com/modules/exporting.js" type="text/javascript">
-</script>
+    </script>
+    <script src="https://code.highcharts.com/modules/exporting.js" type="text/javascript">
+    </script>
 
-    <div id="container" style="min-width: 310px; height: 400px; max-width: 800px; margin: 0 auto">
+    <div id="container" style="min-width: 310px; height: 400px; max-width: 1000px; margin: 0 auto">
+
+
     </div>
+      <div class="well center-block" style="max-width:500px">
+        <button id="change" type="button" class="center-block btn btn-primary ">Refresh</button>
+
+      </div>
 
     <hr>
 
+    <div class="well center-block" style="max-width:500px">
 
-    <div class="well center-block" style="max-width:400px">
-        <button id="change" type="button" class="btn btn-primary btn-lg btn-block">Refresh</button>
+        <input type="text" class="form-control" id="search" placeholder="Sarch">
+        <table class="table" id="searchtable">
+            <caption>Optional table caption.</caption>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Impact</th>
+                    <th>Achievability</th>
+                </tr>
+            </thead>
+            <tbody id="tablebody">
+
+            </tbody>
+        </table>
     </div>
 </body>
+
 </html>
