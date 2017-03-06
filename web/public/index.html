@@ -55,11 +55,9 @@
                     }],
                 },
                 legend: {
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    layout: 'horizontal',
-
-
+                    align: 'right',
+                    verticalAlign: 'top',
+                    layout: 'vertical',
                     floating: false,
                     backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
                     borderWidth: 1
@@ -172,10 +170,7 @@
     <script src="https://code.highcharts.com/modules/exporting.js" type="text/javascript">
     </script>
 
-    <div id="container" style="min-width: 310px; height: 400px; max-width: 1000px; margin: 0 auto">
-
-
-    </div>
+    <div id="container" style="min-width: 310px; height: 800px; max-width: 1000px; margin: 0 auto"></div>
       <div class="well center-block" style="max-width:500px">
         <button id="change" type="button" class="center-block btn btn-primary ">Refresh</button>
 
@@ -185,7 +180,7 @@
 
     <div class="well center-block" style="max-width:500px">
 
-        <input type="text" class="form-control" id="search" placeholder="Sarch">
+        <input type="text" class="form-control" id="search" placeholder="Search">
         <table class="table" id="searchtable">
             <caption>Optional table caption.</caption>
             <thead>
